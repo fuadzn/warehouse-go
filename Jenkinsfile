@@ -8,6 +8,7 @@ pipeline {
   environment {
     CGO_ENABLED = '0'
     GOOS = 'linux'
+    SERVICE = 'merchant-service'
   }
 
   stages {
@@ -19,30 +20,36 @@ pipeline {
 
     stage('Dependencies') {
       steps {
-        sh 'go mod tidy'
-        sh 'go mod download'
+            dir('merchant-service') {
+                sh 'go mod tidy'
+                sh 'go mod download'
+            }
       }
     }
 
     stage('Build') {
       steps {
-        sh 'go build -o app ./...'
+            dir('merchant-service') {
+                sh 'go build -o app ./...'
+            }
       }
     }
 
     stage('Test') {
       steps {
-        sh 'go test ./...'
+            dir('merchant-service') {
+                sh 'go test ./...'
+            }
       }
     }
   }
 
   post {
     success {
-      echo 'Build berhasil!'
+      echo 'Merchant service Build berhasil!'
     }
     failure {
-      echo 'Build gagal!'
+      echo 'Merchant service Build gagal!'
     }
   }
 }
