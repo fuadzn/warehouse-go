@@ -2,7 +2,7 @@ pipeline {
   agent {
     docker {
         image 'golang:1.25-alpine'
-        args '-v /tmp/go-cache:/root/.cache/go-build -v /tmp/go-pkg:/go/pkg'
+        args '--user root -v /tmp/go-cache:/root/.cache/go-build -v /tmp/go-pkg:/go/pkg'
     }
   }
 
